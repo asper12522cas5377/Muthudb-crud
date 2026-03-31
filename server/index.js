@@ -12,7 +12,7 @@ app.use(cors({
 app.use(express.json())
 
 const FoodModel=require("./models/food")
-mongoose.connect("mongodb+srv://admin:admin@cluster0.afrlaow.mongodb.net/food")
+mongoose.connect("mongodb+srv://admin:admin@cluster0.afrlaow.mongodb.net/?appName=Cluster0/food")
 .then(()=>console.log('connected'))
 .catch(err=>console.log(err))
 
