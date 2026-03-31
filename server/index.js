@@ -5,6 +5,7 @@ const app=express()
 
 app.use(cors({
     origin:'http://localhost:3000',
+     https://muthudb-crud.onrender.com,
     methods:['PUT','GET','POST','DELETE']
 }))
 
