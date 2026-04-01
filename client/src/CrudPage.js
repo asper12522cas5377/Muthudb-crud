@@ -15,7 +15,7 @@ function CrudPage()
    },[])
    //insert
    const addFoodData=()=>{
-    Axios.post("http://localhost:3001/insert",{foodName,description})
+    Axios.post("https://muthudb-crud.onrender.com/insert",{foodName,description})
     .then((res)=>{
         console.log(res)
     })
@@ -26,7 +26,7 @@ function CrudPage()
 
    //Getdata
    const fetchData=()=>{
-    Axios.get("http://localhost:3001/read").then((response)=>{
+    Axios.get("https://muthudb-crud.onrender.com/read").then((response)=>{
         console.log(response.data)
         setFoodList(response.data)
     })
@@ -34,13 +34,13 @@ function CrudPage()
 
    //update
    const updateFood=(id)=>{
-    Axios.put(`http://localhost:3001/update`,{id,newFoodName})
+    Axios.put(`https://muthudb-crud.onrender.com/update`,{id,newFoodName})
     .then(()=>fetchData())
    }
 
    //delete
    const deleteFood=(id)=>{
-    Axios.delete(`http://localhost:3001/delete/${id}`).then(()=>fetchData())
+    Axios.delete(`https://muthudb-crud.onrender.com/delete/${id}`).then(()=>fetchData())
    }
    return(
     <div>
