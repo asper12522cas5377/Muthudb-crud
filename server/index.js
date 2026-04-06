@@ -4,6 +4,7 @@ const cors = require("cors");
 
 const app = express();
 
+// CORS configuration
 app.use(cors({
   origin: [
     "http://localhost:3000",
@@ -13,11 +14,14 @@ app.use(cors({
   credentials: true
 }));
 
+// Allow preflight requests
+app.options("*", cors());
+
 app.use(express.json());
 
 const FoodModel = require("./models/food");
 
-// ✅ Correct MongoDB Connection String
+// MongoDB Connection
 mongoose.connect("mongodb+srv://admin:admin@cluster0.afrlaow.mongodb.net/food?retryWrites=true&w=majority")
 .then(() => console.log("MongoDB Connected"))
 .catch(err => console.log(err));
@@ -25,77 +29,82 @@ mongoose.connect("mongodb+srv://admin:admin@cluster0.afrlaow.mongodb.net/food?re
 
 // INSERT DATA
 app.post("/insert", async (req, res) => {
+  try {
     const { foodName, description } = req.body;
 
     const food = new FoodModel({
-        foodName,
-        description
+      foodName,
+      description
     });
 
-    try {
-        const result = await food.save();
-        res.send(result);
-        console.log(result);
-    } catch (err) {
-        console.log(err);
-        res.status(500).send("Error inserting data");
-    }
+    const result = await food.save();
+    res.send(result);
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error inserting data");
+  }
 });
 
 
 // READ DATA
 app.get("/read", async (req, res) => {
-    try {
-        const food = await FoodModel.find();
-        res.send(food);
-    } catch (err) {
-        res.status(500).send("Error fetching data");
-    }
+  try {
+    const food = await FoodModel.find();
+    res.send(food);
+  } catch (err) {
+    res.status(500).send("Error fetching data");
+  }
 });
 
 
 // UPDATE DATA
 app.put("/update", async (req, res) => {
+  try {
     const { newFoodName, id } = req.body;
 
-    try {
-        const updateFood = await FoodModel.findById(id);
+    const updateFood = await FoodModel.findById(id);
 
-        if (!updateFood) {
-            return res.status(404).send("Data not found");
-        }
-
-        updateFood.foodName = newFoodName;
-
-        await updateFood.save();
-
-        res.send("Data Updated...");
-    } catch (err) {
-        console.log(err);
-        res.status(500).send("Error updating data");
+    if (!updateFood) {
+      return res.status(404).send("Data not found");
     }
+
+    updateFood.foodName = newFoodName;
+
+    await updateFood.save();
+
+    res.send("Data Updated");
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error updating data");
+  }
 });
 
 
 // DELETE DATA
 app.delete("/delete/:id", async (req, res) => {
+  try {
     const id = req.params.id;
 
-    try {
-        const result = await FoodModel.findByIdAndDelete(id);
+    const result = await FoodModel.findByIdAndDelete(id);
 
-        if (!result) {
-            return res.status(404).send("Food item not found");
-        }
-
-        res.send("Food item deleted");
-    } catch (err) {
-        console.error(err); // ✅ fixed typo
-        res.status(500).send("Error deleting data");
+    if (!result) {
+      return res.status(404).send("Food item not found");
     }
+
+    res.send("Food item deleted");
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error deleting data");
+  }
 });
 
 
-app.listen(3001, () => {
-    console.log("Server is Running on port 3001...");
+// PORT
+const PORT = process.env.PORT || 3001;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
