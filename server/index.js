@@ -5,11 +5,12 @@ const cors = require("cors");
 const app = express();
 
 app.use(cors({
-    origin: [
-        "http://localhost:3000",
-        "https://muthudb-crud-glrb.vercel.app"
-    ],
-    methods: ["GET","POST","PUT","DELETE"]
+  origin: [
+    "http://localhost:3000",
+    "https://muthudb-crud-glrb.vercel.app"
+  ],
+  methods: ["GET","POST","PUT","DELETE"],
+  credentials: true
 }));
 
 app.use(express.json());
