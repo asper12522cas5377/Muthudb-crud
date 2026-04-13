@@ -45,7 +45,7 @@ function CrudPage()
    return(
     <div>
         <div className="container">
-         <h1>Fruits Name</h1>
+         <h1>Food Name</h1>
         <div className="mb-3">
          <input type="text" className="from-control" placeholder="FoodName" required
          onChange={(e)=>setFoodName(e.target.value)}
@@ -53,7 +53,7 @@ function CrudPage()
         </div>
 
         <div className="mb-3">
-         <input type="text" className="from-control" placeholder="FoodName" required
+         <input type="text" className="from-control" placeholder="FoodDescription" required
          onChange={(e)=>setDescription(e.target.value)}
          />
         </div>
