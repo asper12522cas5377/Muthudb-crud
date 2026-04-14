@@ -15,7 +15,7 @@ app.use(express.json());
 
 const FoodModel = require("./models/food");
 
-// ✅ Correct MongoDB Connection String
+
 mongoose.connect("mongodb+srv://admin:admin@cluster0.afrlaow.mongodb.net/food?retryWrites=true&w=majority")
 .then(() => console.log("MongoDB Connected"))
 .catch(err => console.log(err));
@@ -88,7 +88,7 @@ app.delete("/delete/:id", async (req, res) => {
 
         res.send("Food item deleted");
     } catch (err) {
-        console.error(err); // ✅ fixed typo
+        console.error(err);
         res.status(500).send("Error deleting data");
     }
 });
